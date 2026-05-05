@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graduation - Kak Debora 🎓</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap');
+        body { margin: 0; padding: 0; background: #8b0000; font-family: 'Poppins', sans-serif; color: #fff; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; text-align: center; }
+        .container { width: 90%; max-width: 420px; position: relative; z-index: 10; }
+        .page { display: none; animation: fadeIn 0.8s ease-out; }
+        .active { display: block; }
+        h1 { font-family: 'Dancing Script', cursive; font-size: 2.2rem; margin-bottom: 10px; color: #ffcccb; text-shadow: 2px 2px 5px rgba(0,0,0,0.3); }
+        .icon-btn { font-size: 90px; cursor: pointer; transition: 0.3s; display: inline-block; filter: drop-shadow(0 0 10px rgba(255,255,255,0.4)); }
+        .icon-btn:active { transform: scale(0.9); }
+        .photo-frame { width: 250px; height: 250px; margin: 0 auto 15px; border: 5px solid #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
+        .kamar-slides { display: none; width: 100%; height: 100%; object-fit: cover; }
+        .particle { position: absolute; pointer-events: none; z-index: 99; animation: floatUp 4s linear forwards; }
+        @keyframes floatUp { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(-110vh) rotate(720deg); opacity: 0; } }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        .btn-next { margin-top: 15px; padding: 12px 25px; background: #fff; color: #8b0000; border: none; border-radius: 50px; font-weight: 600; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .ucapan-box { font-size: 0.8rem; text-align: justify; background: rgba(255,255,255,0.15); padding: 15px; border-radius: 15px; backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.2); line-height: 1.5; }
+    </style>
+</head>
+<body>
+
+    <audio id="bgMusic" preload="auto" loop>
+        <source src="musik.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="container">
+        <div id="page1" class="page active">
+            <div class="icon-btn" onclick="openGift()">🎁</div>
+            <h1>for Kak Debora</h1>
+            <p>Klik kadonya ya, Kak!</p>
+        </div>
+
+        <div id="page2" class="page">
+            <div class="photo-frame"><img src="foto1.jpeg"></div>
+            <h1>Happy Graduation kak Debora!</h1>
+            <button class="btn-next" onclick="nextPage(3)">Buka Pesan ➔</button>
+        </div>
+
+        <div id="page3" class="page">
+            <div class="photo-frame" style="width: 160px; height: 160px;"><img src="foto2.jpeg"></div>
+            <div class="ucapan-box">
+                <b>Selamat ya kak atas kelulusannya! 🎓✨</b><br><br>
+                Senang banget lihat kakak bisa sampai di tahap ini. Perjalanan kakak selanjutnya untuk mengajar ke Papua pasti akan jadi pengalaman yang baru dan berharga. Semangat terus ya kak!<br><br>
+                Kiranya kakak bisa jadi berkat di sana, membawa kasih dan sukacita lewat setiap hal yang kakak lakukan. Semangat juga ngajar anak-anak di sana ya kak, walaupun nanti ada tantangan, semoga kakak selalu diberi hati yang sabar dan penuh kasih. Sukses selalu ya kak 🤍
+            </div>
+            <button class="btn-next" onclick="nextPage(4)">Next ➔</button>
+        </div>
+
+        <div id="page4" class="page">
+            <div class="icon-btn" onclick="showFinal()">❤️</div>
+            <p>Satu lagi dari kami...</p>
+        </div>
+
+        <div id="page5" class="page">
+            <div class="photo-frame">
+                <img src="kamar1.jpeg" class="kamar-slides">
+                <img src="kamar2.jpeg" class="kamar-slides">
+            </div>
+            <h1>We love you kak Debora! ❤️</h1>
+            <p>With love, 507 yang selalu lucu ✨</p>
+        </div>
+    </div>
+
+    <script>
+        const music = document.getElementById("bgMusic");
+
+        function nextPage(num) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('page' + num).classList.add('active');
+        }
+
+        function openGift() {
+            // Coba putar musik, jika error tetap lanjut ke halaman 2
+            music.play().catch(e => console.log("Musik butuh izin klik"));
+            
+            // Efek Meriah
+            for(let i=0; i<50; i++) { 
+                setTimeout(() => {
+                    const ems = ['🌸', '🌹', '✨', '🎓', '🎈', '💖'];
+                    createParticle(ems[Math.floor(Math.random() * ems.length)]);
+                }, i * 30); 
+            }
+            
+            // Pindah halaman tanpa nunggu musik
+            setTimeout(() => { nextPage(2); }, 2000);
+        }
+
+        function showFinal() {
+            for(let i=0; i<40; i++) { createParticle('❤️'); }
+            nextPage(5);
+            startKamarSlides();
+        }
+
+        let slideIdx = 0;
+        function startKamarSlides() {
+            let slides = document.getElementsByClassName("kamar-slides");
+            if (slides.length === 0) return;
+            for (let i = 0; i < slides.length; i++) { slides[i].style.display = "none"; }
+            slideIdx++;
+            if (slideIdx > slides.length) {slideIdx = 1}
+            slides[slideIdx-1].style.display = "block";
+            setTimeout(startKamarSlides, 3000); 
+        }
+
+        function createParticle(symbol) {
+            const p = document.createElement('div');
+            p.classList.add('particle');
+            p.innerHTML = symbol;
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.top = '100vh';
+            p.style.fontSize = (Math.random() * 20 + 20) + 'px';
+            p.style.animationDuration = (Math.random() * 2 + 2) + 's';
+            document.body.appendChild(p);
+            setTimeout(() => p.remove(), 4000);
+        }
+    </script>
+</body>
+</html>
